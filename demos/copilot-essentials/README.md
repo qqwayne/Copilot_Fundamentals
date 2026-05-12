@@ -28,7 +28,7 @@
 
 | ツール | バージョン | 備考 |
 |------|-----------:|------|
-| Python | 3.8+ | 標準ライブラリのみ使用（外部パッケージ不要） |
+| Python | 3.12+ | 標準ライブラリのみ使用（外部パッケージ不要） |
 | VS Code | 最新 | Copilot 対応 IDE なら可（手順は VS Code 前提） |
 | GitHub Copilot | 有効 | 拡張機能がサインイン済みで 💡 提案が出ることを確認 |
 
@@ -79,7 +79,7 @@ def read_lines(file_path: Path) -> Iterable[str]:
 ### 4. スクリプトを実行する
 
 ```bash
-python triage.py --file sample_access.log.gz --minutes 15 --status 499,321 --top 10
+python3 triage.py --file sample_access.log.gz --minutes 15 --status 499,321 --top 10
 ```
 
 想定される出力（抜粋）：
@@ -99,7 +99,7 @@ Rank | Status | Path               | Hits
 
 ### 5. いろいろ試す（Experiment）
 
-- プロンプトを変更して「プログレスバー」や「CSV 出力」を追加し、Copilot を再実行
+- プロンプトを変更して「CSV 出力」を追加し、Copilot を再実行
 - ログフォーマットを数行だけ壊して、`parse_line` が不正行をうまくスキップできるか確認
 - 自分の開発環境の実ログに差し替える（`.log` / `.log.gz` のままでOK）
 
@@ -151,14 +151,6 @@ A. 1 行ずつ読み込むため、メモリ使用は一定です。制限は基
 - `status,path,hits` の CSV を出力し、分析担当が取り込みできるようにする
 - スレッド版：ディレクトリ内の複数ログファイルを並列パースする
 - ユニットテスト：小さなログサンプルを stub して、Counter 出力を検証する
-
----
-
-## 📚 参考資料（Further Reading）
-
-- GitHub Copilot Docs：「Prompt Tips & Tricks」
-- Python 公式ドキュメント：`datetime`, `re`, `argparse`
-- 実務の参考：Nginx のログフォーマット
 
 ---
 
