@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-Quick log triage utility
+クイックログトリアージユーティリティ
 ────────────────────────
-  • Accepts   *.log  or  *.log.gz
-  • Filters   last N minutes (sliding window)
-  • Tallies   (status‑code, endpoint) pairs
-  • Optional  --status 499,321 for focused searching
+  • 対応形式   *.log  または  *.log.gz
+  • フィルター 直近N分間のスライディングウィンドウ
+  • 集計対象   (ステータスコード、エンドポイント) ペア
+  • オプション --status 499,321 で絞り込み検索が可能
 
-  A noisy incident page reveals a spike in 321 or 499 errors, but the observability stack is lagging. You need a quick, local log sweep to spot patterns and counts.
+  インシデント通知で 321 や 499 エラーの急増が検出されたが、
+  監視スタックの反映が遅延している。
+  パターンとカウントを素早く把握するために、ローカルでログを素早くスキャンする必要がある。
 """
 
 from pathlib import Path
@@ -20,17 +22,17 @@ from collections import Counter
 from typing import Iterable, Tuple
 
 # ---------------------------------------------------------------------------
-# ✨ Function placeholders – let Copilot write the bodies ✨
+# ✨ 関数のプレースホルダー – Copilot が本体を実装します ✨
 # ---------------------------------------------------------------------------
 
 def read_lines(file_path: Path) -> Iterable[str]:
     """Open plain or gzipped log file and yield each line (stripped)."""
-    pass  # ← Copilot will fill this in
+    pass  # ← Copilot が実装します
 
 
 def parse_line(line: str) -> Tuple[datetime, int, str] | None:
     """Return (timestamp_utc, status_code_int, url_path) or None if malformed."""
-    pass  # ← Copilot will fill this in
+    pass  # ← Copilot が実装します
 
 
 def triage(
@@ -39,17 +41,17 @@ def triage(
     wanted_status: set[int] | None
 ) -> Counter[Tuple[int, str]]:
     """Aggregate counts for lines within the window and matching status filter."""
-    pass  # ← Copilot will fill this in
+    pass  # ← Copilot が実装します
 
 
 def render(counter: Counter[Tuple[int, str]], top: int) -> None:
     """Pretty‑print a Markdown‑style table of the top offenders."""
-    pass  # ← Copilot will fill this in
+    pass  # ← Copilot が実装します
 
 
 def main() -> None:
     """Wire everything together with argparse CLI options."""
-    pass  # ← Copilot will fill this in
+    pass  # ← Copilot が実装します
 
 
 if __name__ == "__main__":
@@ -85,3 +87,37 @@ if __name__ == "__main__":
 #       --top     (int, default 10)
 #    Parse args, build wanted_status set, call triage(), then render().
 #    Exit with status‑code 1 if no matches were found."
+
+
+
+# ---------------------------------------------------------------------------
+# 📝 Copilot プロンプト – 各空の関数にコピーするか、ここに残してください
+# ---------------------------------------------------------------------------
+# read_lines プロンプト:
+#   「read_lines(file_path) を実装してください。.log または .log.gz を透過的に処理し、
+#    テキストモード（UTF‑8）で開き、1行ずつストリップした行をyieldしてください。」
+
+# parse_line プロンプト:
+#   「common/combined ログフォーマット用のコンパイル済み正規表現を使用してください。
+#    タイムスタンプ、ステータス、パスを抽出してください。
+#    タイムスタンプ '[15/Jul/2025:14:23:41 +0000]' をタイムゾーン対応のUTC datetimeに変換してください。
+#    行がマッチしない場合は None を返してください。」
+
+# triage プロンプト:
+#   「行をストリーミングして各行をパースし、不正な行はスキップしてください。
+#    タイムスタンプが datetime.utcnow() から <minutes> 分以内で、
+#    wanted_status が指定されている場合はそのステータスに一致するエントリのみを保持してください。
+#    (status_code, path) をキーとする Counter を使用してください。」
+
+# render プロンプト:
+#   「Counter から上位 <top> 件の (status, path) ペアをヒット数の降順で出力してください。
+#    Markdownテーブル形式（Rank | Status | Path | Hits）でフォーマットしてください。」
+
+# main プロンプト:
+#   「以下の argparse 引数を追加してください:
+#       --file   （位置引数、必須）
+#       --minutes（int、デフォルト 15）
+#       --status （カンマ区切りの整数リスト、任意）
+#       --top    （int、デフォルト 10）
+#    引数をパースし、wanted_status セットを構築して triage() を呼び出し、render() を実行してください。
+#    一致するエントリが見つからない場合はステータスコード 1 で終了してください。」
